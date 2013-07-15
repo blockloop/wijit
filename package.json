@@ -1,0 +1,39 @@
+{
+  "name": "Wijit",
+  "version": "0.0.1",
+  "main": "index.html",
+  "description": "Extendable/Cross platform desktop widget",
+  "keywords": [
+    "cross-platform",
+    "widget",
+    "desktop"
+  ],
+  "dependencies": {
+    "underscore": "*"
+  },
+  "devDependencies": {
+    "grunt-cli": "*",
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~> 0.4.0",
+    "grunt-contrib-less": "*",
+    "less": "*",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-notify": "~0.2.4"
+  },
+  "window": {
+    "frame": true,
+    "title": "Wijit",
+    "icon": "app_icon.png",
+    "toolbar": true,
+    "width": 325,
+    "height": 535,
+    "position": "center",
+    "min_width": 325,
+    "min_height": 500,
+    "max_width": 600
+  },
+  "webkit": {
+    "plugin": false,
+    "page-cache": true
+  }
+}
