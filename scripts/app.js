@@ -27,7 +27,7 @@
   });
 
   // I don't like loading the service here, but it's the only scope where
-  // the list of extension list is available
+  // the extension list is available
   mainModule.
     service('extensionService', function() {
       return {
