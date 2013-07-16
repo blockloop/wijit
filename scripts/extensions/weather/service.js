@@ -1,16 +1,16 @@
 (function(){
-  angular.module('wijit', ['http', 'weatherSettings']).service('weatherService', function(){
+  angular.module('wijit').service('weatherService', ['$http', function($http, settingsService){
 
-    var url = "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=75032";
+    var urlpart = "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=";
 
     return {
       update: function (args) {
         var locationCode = args.options.locationCode;
-      }, // update
+        var url = urlpart + locationCode;
+      }, // function update
 
+    }; // return 
 
-    }; // return
-
-  }); // module
+  }]); // angular.module.service
 
 })();

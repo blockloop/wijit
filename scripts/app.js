@@ -1,29 +1,34 @@
 (function() {
-  
   // extensions to load
-  var extList = [];
-  var fs = require('fs');
+  var extensions = [];
+  var glob = require('glob');
+  var _ = require('underscore');
 
   // read extensions directory
-  fs.readdir('./extensions/',function(err,files){
+  glob('extensions/**/extension.js', function(err,files) {
     if(err) throw err;
 
     // loop through the extension files and make them available as modules
-    files.forEach(function(file){
+    files.forEach(function(file) {
 
-      // load the extension as modules
-      require(file);
-
-      // get the name of the extension
-      var name = file.match(/(\w+)?Extension/)[1];
+      // load the extension using node
+      var ext = require(file);
 
       // push the item to the internal list
-      extList.push(extension);
+      extensions.push(ext);
     });
 
-  }); // fs.readdir
+  }); // glob
 
   // declare modules
-  angular.module('wijit', extList);
+  angular.module('wijit', _.map(extensions, 'name')).
+    service('extensionService', function() {
+      return {
+        all: extensions
+        // active: TODO
+        // inactive: TODO
+      }; // return
+
+    }); // service
 
 })();
