@@ -7,17 +7,19 @@
 
   <div class="content" ng-controller="MainCtrl">
     <div ng-repeat="ext in extensionsLoaded">
-      <div class="extension" ng-controller="{{ ext.name }}Ctrl">
-      </div>
+      <extension name="{{ ext.name }}">
+
+      </extension>
     </div>
   </div>
 
   <!-- JS -->
   <script src="scripts/lib/angular.min.js"></script>
+  <script src="scripts/lib/scope.onready.js"></script>
   <script src="scripts/app.js"></script>
 
   <!-- Directives -->
-  <!-- <script src="scripts/directives.js"></script> -->
+  <script src="scripts/directives/extension.js"></script>
 
   <!-- Services -->
   <!-- <script src="scripts/services/service.js"></script> -->

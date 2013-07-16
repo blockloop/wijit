@@ -3,10 +3,12 @@
   var mod = exports = module.exports = {};
   
   mod.type = 'controller';
-  mod.name = 'weatherCtrl'
-  mod.constructor = ['$scope', 'weatherService', function (weatherService) {
+  mod.name = 'WeatherCtrl'
+  mod.constructor = ['$scope', 'weatherService', function ($scope, weatherService) {
 
-    // $scope.?
+    $scope.update = function (args) {
+      $scope.weather = weatherService.update(args.config);
+    };
 
   }]; // constructor
 

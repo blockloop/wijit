@@ -3,7 +3,7 @@
   var _ = require('underscore');
 
   // the app module
-  var mainModule = angular.module('wijit', []);
+  var mainModule = angular.module('wijit', ['Scope.onReady']);
   // extensions to load
   var extensions = [];
   // read extensions directory
@@ -31,9 +31,12 @@
   mainModule.
     service('extensionService', function() {
       return {
-        all: extensions
+        all: extensions,
         // active: TODO
         // inactive: TODO
+        getExtension: function (extname) {
+          return _.findWhere(extensions, {name: extname});
+        }
       }; // return
 
     }); // service

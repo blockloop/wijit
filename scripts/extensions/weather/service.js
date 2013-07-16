@@ -1,4 +1,6 @@
 (function(){
+  var $ = require('jquery');
+
   var mod = {};
   exports = module.exports = mod;
 
@@ -12,6 +14,13 @@
       update: function (args) {
         var locationCode = args.options.locationCode;
         var url = urlpart + locationCode;
+
+        return $http.jsonp( url + params ).
+          then(function(response) {
+              // parse data items and format post dates
+              var data = response.data;
+            });
+
       }, // function update
 
     }; // return 
