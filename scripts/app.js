@@ -1,27 +1,34 @@
 (function() {
-  // extensions to load
-  var extensions = [];
   var glob = require('glob');
   var _ = require('underscore');
 
+  // the app module
+  var mainModule = angular.module('wijit', []);
+  // extensions to load
+  var extensions = [];
   // read extensions directory
-  glob('extensions/**/extension.js', function(err,files) {
-    if(err) throw err;
+  var files = glob.sync('scripts/extensions/**/extension.js');
 
-    // loop through the extension files and make them available as modules
-    files.forEach(function(file) {
+  // loop through the extension files and make them available as modules
+  files.forEach(function(file) {
+    file = './' + file.replace('.js', '');
 
-      // load the extension using node
-      var ext = require(file);
+    // load the extension using node
+    var ext = require(file);
+    console.log("Loading extension " + ext.name);
 
-      // push the item to the internal list
-      extensions.push(ext);
+    ext.modules.forEach(function(mod){
+      console.log('Loading module ' + mod.name + ' of ' + ext.name);
+      mainModule[mod.type](mod.name, mod.constructor);
     });
 
-  }); // glob
+    // push the item to the internal list
+    extensions.push(ext);
+  });
 
-  // declare modules
-  angular.module('wijit', _.map(extensions, 'name')).
+  // I don't like loading the service here, but it's the only scope where
+  // the list of extension list is available
+  mainModule.
     service('extensionService', function() {
       return {
         all: extensions

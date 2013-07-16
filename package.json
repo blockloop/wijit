@@ -10,7 +10,8 @@
   ],
   "dependencies": {
     "underscore": "~1.5.1",
-    "jquery": "~1.8.3"
+    "jquery": "~1.8.3",
+    "glob": "~3.2.3"
   },
   "devDependencies": {
     "grunt-cli": "*",
@@ -26,12 +27,11 @@
     "title": "Wijit",
     "icon": "app_icon.png",
     "toolbar": true,
-    "width": 325,
+    "width": 725,
     "height": 535,
     "position": "center",
     "min_width": 325,
-    "min_height": 500,
-    "max_width": 600
+    "min_height": 500
   },
   "webkit": {
     "plugin": false,

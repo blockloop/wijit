@@ -1,5 +1,10 @@
 (function(){
-  angular.module('wijit').service('weatherService', ['$http', function($http, settingsService){
+  var mod = {};
+  exports = module.exports = mod;
+
+  mod.type = 'service';
+  mod.name = 'weatherService';
+  mod.constructor = ['$http', function ($http, settingsService){
 
     var urlpart = "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=";
 
@@ -11,6 +16,6 @@
 
     }; // return 
 
-  }]); // angular.module.service
+  }]; // constructor
 
 })();

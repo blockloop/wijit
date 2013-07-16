@@ -1,8 +1,14 @@
 (function(){
-  angular.module('wijit').controller('weatherCtrl', ['$scope', 'weatherService', function (weatherService) {
+  
+  var mod = exports = module.exports = {};
+  
+  mod.type = 'controller';
+  mod.name = 'weatherCtrl'
+  mod.constructor = ['$scope', 'weatherService', function (weatherService) {
 
     // $scope.?
 
-  }]); // angular.module.controller
+  }]; // constructor
 
 })();
+
