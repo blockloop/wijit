@@ -14,31 +14,27 @@
   mod.name = 'weatherService';
   mod.constructor = ['$http', '$q', function ($http, $q, settingsService){
 
-    var urlpart = "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=";
+    // possibly use this to search
+    // http://api.openweathermap.org/data/2.5/find?q=rockwall&units=imperial
+    var urlpart = "http://api.openweathermap.org/data/2.5/weather?id=$$loc$$&units=imperial";
 
     var sendRequest = function (locationCode) {
       var deferred = $q.defer();
-      var url = urlpart + locationCode;
+      var url = urlpart.replace('$$loc$$', locationCode);
 
       // queue the http request
       $http.get(url).
         then(function(response) {
-            parseXml(response.data, function (err, result){
-              if (err) throw err;
-              var forecast = _.map(result.rss.channel.item, function(item){
-                return {
-                  date: item.title.split(' ')[0],
-                  desc: item.description
-                }
-              }).splice(1,2);
-
-              deferred.resolve({
-                current: result.rss.channel.item[0].title,
-                currentLong: result.rss.channel.item[0].description,
-                forecast: forecast
-              });
-
+            console.log(JSON.stringify(response));
+            var data = response.data;
+            deferred.resolve({
+              loc: data.name,
+              temp: data.main.temp,
+              condition: data.weather.main,
+              low: data.main.temp_min,
+              high: data.main.temp_max,
             });
+
           });
           
       return deferred.promise;

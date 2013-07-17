@@ -8,13 +8,10 @@
 
   mod.constructor = ['$scope', 'weatherService', 
     function ($scope, weatherService) {
-      var config = {locationCode: 75032};
+      var config = {locationCode: 4723406};
 
       weatherService.getWeather(config).then(function(data){
-        // $.extend($scope, data);
-        $scope.current = data.current;
-        $scope.currentLong = data.currentLong;
-        $scope.forecast = data.forecast;
+        $.extend($scope, data);
       });
 
   }]; // constructor
