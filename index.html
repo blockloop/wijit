@@ -7,8 +7,8 @@
 
   <div class="content" ng-controller="MainCtrl">
     <div ng-repeat="ext in extensionsLoaded">
-      <extension name="{{ ext.name }}">
-
+      <extension extname="{{ ext.name }}">
+        <div> {{ weather }} </div>
       </extension>
     </div>
   </div>

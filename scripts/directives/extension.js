@@ -1,20 +1,23 @@
 (function(){
-  angular.module('wijit').directive('extension', ['extensionService', function(extensionService) {
+  angular.module('wijit').directive('extension', ['extensionService',
 
-    return {
-      restrict: 'E',
-      priority: 0,
-      transclude: true,
-      link: function($scope, element, attrs) {
-        // $scope.$whenReady(function() {
-          console.log('running extension directive');
-          var extName = attrs.name;
-          var ext = extensionService.getExtension(extName);
-          if (!ext) return;
+    function(extensionService) {
+      return {
+        restrict: 'E',
+        priority: 999,
+        link: function($scope, element, attrs) {
+          setTimeout(function () {
+            var extName = attrs.extname;
+            console.log('running extension directive for ' + extName);
+            var ext = extensionService.getExtension(extName);
+            if (!ext) {
+              console.log('Could not find extension ' + extName);
+              return;
+            }
 
-          attrs.$set('ng-controller', extName.concat('Ctrl'));
-        // });
-      }
-    };
+            attrs.$set('ng-controller', extName.concat('Ctrl'));
+          }, 100);
+        }
+      };
   }]);
 })()

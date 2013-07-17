@@ -12,7 +12,8 @@
 
     return {
       update: function (args) {
-        var locationCode = args.options.locationCode;
+        return 'IT WORKED!';
+        var locationCode = args.locationCode;
         var url = urlpart + locationCode;
 
         return $http.jsonp( url + params ).
