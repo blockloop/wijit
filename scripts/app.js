@@ -1,9 +1,9 @@
-(function() {
+(function(ng) {
   var glob = require('glob');
   var _ = require('underscore');
 
   // the app module
-  var mainModule = angular.module('wijit', ['Scope.onReady']);
+  var mainModule = ng.module('wijit', ['Scope.onReady']);
   // extensions to load
   var extensions = [];
   // read extensions directory
@@ -41,4 +41,4 @@
 
     }); // service
 
-})();
+})(angular);

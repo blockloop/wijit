@@ -10,6 +10,9 @@
   // this is your service, ctrl, directives, etc
   ext.modules = [ service, ctrl ]
 
+  // Set your controller name
+  ext.ctrl = 'WeatherCtrl';
+
   // Start with uppercase
   // word characters only
   ext.name = "Weather";
