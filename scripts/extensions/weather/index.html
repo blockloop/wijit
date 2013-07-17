@@ -1,3 +1,11 @@
 <div ng-controller="WeatherCtrl">
-  <span>{{ weather }}</span>
+  <div>{{ current }}</div>
+  <!-- <div ng-bind-html-unsafe="currentLong"></div> -->
+  <div>{{ forecast.length }} day forecast: </div>
+  <div ng-repeat"item in forecast">
+    <hr/>
+    <pre>{{ item }}</pre>
+    <div>{{ item.date }}</div>
+    <div ng-bind-html-unsafe="item.desc"></div>
+  </div>
 </div>

@@ -13,7 +13,7 @@
 
   // if you have any npm_modules you need then you have to put them here
   // otherwise they will not be available in your extension
-  ext.npm_modules = [];
+  ext.npm_modules = ['xml2js'];
 
   // Set your controller name
   ext.ctrl = 'WeatherCtrl';
