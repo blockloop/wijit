@@ -6,23 +6,28 @@
 
   mod.type = 'service';
   mod.name = 'weatherService';
-  mod.constructor = ['$http', function ($http, settingsService){
+  mod.constructor = ['$http', '$q', function ($http, $q, settingsService){
 
     var urlpart = "http://rss.accuweather.com/rss/liveweather_rss.asp?metric=0&locCode=";
 
+    function sendRequest(locationCode) {
+      var deferred = $q.defer();
+      var url = urlpart + locationCode;
+
+      // queue the http request
+      $http.get(url).
+        then(function(response) {
+            deferred.resolve(response.data);
+          });
+          
+      return deferred.promise;
+    }
+
     return {
-      update: function (args) {
-        return 'weather from service';
+      getWeather: function (args) {
         var locationCode = args.locationCode;
-        var url = urlpart + locationCode;
-
-        return $http.get(url).
-          then(function(response) {
-              // parse data items and format post dates
-              var data = response.data;
-            });
-
-      }, // function update
+        return sendRequest(locationCode);
+      }, // getWeather()
 
     }; // return 
 

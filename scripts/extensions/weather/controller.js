@@ -7,8 +7,11 @@
   mod.constructor = ['$scope', 'weatherService', 
 
     function ($scope, weatherService) {
-      console.log('Weather Controller is running!');
-      $scope.weather = weatherService.update({locationCode: 75032});
+      var config = {locationCode: 75032};
+
+      weatherService.getWeather(config).then(function(data){
+        $scope.weather = data;
+      });
 
   }]; // constructor
 
