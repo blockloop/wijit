@@ -1,17 +1,25 @@
 (function(){
-  // expose your extensions public information
-  var ext = {};
-  exports = module.exports = ext;
-
+  var ext = exports = module.exports = {};
   var service = require('./service');
   var ctrl = require('./controller');
 
-  // modules that this services uses
+  // version, duh
+  ext.version = '0.0.1';
+
+  // angular modules that this services uses
   // this is your service, ctrl, directives, etc
+  // they must be in this list to get loaded
   ext.modules = [ service, ctrl ]
+
+  // if you have any npm_modules you need then you have to put them here
+  // otherwise they will not be available in your extension
+  ext.npm_modules = [];
 
   // Set your controller name
   ext.ctrl = 'WeatherCtrl';
+
+  // Set your template
+  ext.template = __dirname + '/index.html';
 
   // Start with uppercase
   // word characters only

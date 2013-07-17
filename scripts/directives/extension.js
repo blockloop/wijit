@@ -5,15 +5,11 @@
       return {
         restrict: 'E',
         priority: 0,
-        scope: {
-          ext: '='
-        },
+        template: '<div ng-include="getExtInclude(ext)"></div>',
         link: function($scope, element, attrs) {
-          var extName = $scope.ext.name;
-          console.log('running extension directive for ' + extName);
-
-          attrs.$set('ng-controller', $scope.ext.ctrl);
-          element.html('<pre>' + JSON.stringify($scope.ext) + '</pre>');
+          var ext = $scope.ext;
+          attrs.$set('ng-controller', ext.ctrl);
+          element.html(ext.template);
         }
       };
   }]);

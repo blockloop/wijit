@@ -1,4 +1,5 @@
 (function(ng) {
+
   var glob = require('glob');
   var _ = require('underscore');
 
@@ -18,7 +19,7 @@
     console.log("Loading extension " + ext.name);
 
     ext.modules.forEach(function(mod){
-      console.log('Loading module ' + mod.name + ' of ' + ext.name);
+      console.log('Loading ' + mod.type + ' ' + mod.name + ' of ' + ext.name + ' module');
       mainModule[mod.type](mod.name, mod.constructor);
     });
 

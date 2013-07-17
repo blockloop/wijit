@@ -6,7 +6,11 @@
 <body>
 
   <div class="content" ng-controller="MainCtrl">
-    <extension ng-repeat="ext in extensionsLoaded" ext="ext"></extension>
+    <div class="extension" 
+        ng-repeat="ext in extensionsLoaded" 
+        ng-include="ext.template"
+        >
+    </div>
   </div>
 
   <!-- JS -->

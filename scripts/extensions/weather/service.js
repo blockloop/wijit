@@ -12,11 +12,11 @@
 
     return {
       update: function (args) {
-        return 'IT WORKED!';
+        return 'weather from service';
         var locationCode = args.locationCode;
         var url = urlpart + locationCode;
 
-        return $http.jsonp( url + params ).
+        return $http.get(url).
           then(function(response) {
               // parse data items and format post dates
               var data = response.data;
