@@ -1,6 +1,6 @@
 (function(){
   
-  var $ = require('jquery');
+  var _ = require('lodash');
   var mod = exports = module.exports = {};
   
   mod.type = 'controller';
@@ -11,7 +11,7 @@
       config.get('something');
       var config = {locationCode: 4723406};
       weatherService.getWeather(config).then(function(data){
-        $.extend($scope, data);
+        _.extend($scope, data);
       });
 
   }]; // constructor

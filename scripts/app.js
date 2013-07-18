@@ -27,10 +27,17 @@
       mainModule[mod.type](mod.name, mod.constructor);
     });
 
-    // set the template
     ext.template = path.join(extDir, 'index.html');
-
     ext.config = path.join(extDir, 'config.json');
+
+    // generate a random class to stick on the extension to 
+    // seclude it's css to it's own section
+    var range = _.range(65,90).concat(_.range(97,122));
+    var prefix = '';
+    for (var i = 0; i < 8; i++) {
+      prefix += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
+    };
+    ext.classPrefix = prefix;
 
     // push the item to the internal list
     extensions.push(ext);
