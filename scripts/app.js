@@ -1,6 +1,7 @@
 (function(ng) {
 
   var glob = require('glob');
+  var path = require('path');
   var _ = require('underscore');
 
   // the app module
@@ -14,6 +15,9 @@
   files.forEach(function(file) {
     file = './' + file.replace('.js', '');
 
+    // base directory of the extension
+    var extDir = path.dirname(file);
+
     // load the extension using node
     var ext = require(file);
     console.log("Loading extension " + ext.name);
@@ -22,6 +26,11 @@
       console.log('Loading ' + mod.type + ' ' + mod.name + ' of ' + ext.name + ' module');
       mainModule[mod.type](mod.name, mod.constructor);
     });
+
+    // set the template
+    ext.template = path.join(extDir, 'index.html');
+
+    ext.config = path.join(extDir, 'config.json');
 
     // push the item to the internal list
     extensions.push(ext);

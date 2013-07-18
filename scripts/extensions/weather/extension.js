@@ -19,17 +19,14 @@
   ext.ctrl = 'WeatherCtrl';
 
   // Set your template
-  ext.template = __dirname + '/index.html';
+  // Prefix with __dirname to ensure fullpath
+  ////// loaded automatically
+  // ext.template = __dirname + '/index.html';
 
-  // Start with uppercase
   // word characters only
   ext.name = "Weather";
 
   // this is for display purposes
-  // if this isn't provided name will be used
+  // if this isn't provided 'name' will be used
   ext.prettyName = "Weather!";
-
-  //  load your local config
-  //  this will be provided to your extension upon changes
-  ext.config = require('./weather.json');
 })();
