@@ -47,13 +47,10 @@
       };
     }
 
-    return {
-      getWeather: function (args) {
-        var locationCode = args.locationCode;
-        return sendRequest(locationCode);
-      }, // getWeather()
-
-    }; // return 
+    this.getWeather = function (args) {
+      var locationCode = args.locationCode;
+      return sendRequest(locationCode);
+    } 
 
   }]; // constructor
 
