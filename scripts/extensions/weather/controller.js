@@ -12,6 +12,7 @@
 
       weatherService.getWeather(config).then(function(data){
         $.extend($scope, data);
+        console.log($scope.cond);
       });
 
   }]; // constructor

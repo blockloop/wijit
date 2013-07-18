@@ -25,14 +25,14 @@
       // queue the http request
       $http.get(url).
         then(function(response) {
-            console.log(JSON.stringify(response));
             var data = response.data;
+            console.log(JSON.stringify(data));
             deferred.resolve({
               loc: data.name,
-              temp: data.main.temp,
-              condition: data.weather.main,
-              low: data.main.temp_min,
-              high: data.main.temp_max,
+              temp: Math.round(data.main.temp),
+              condition: data.weather[0].main,
+              low: Math.round(data.main.temp_min),
+              high: Math.round(data.main.temp_max),
             });
 
           });

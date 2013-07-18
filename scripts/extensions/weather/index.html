@@ -1,8 +1,7 @@
 <div ng-controller="WeatherCtrl">
   <div>{{ loc }}</div>
-  <div>{{ condition }}</div>
-  <span>{{ temp }}&deg;</span>
+  <div>{{ condition }} {{ temp }}&deg;</div>
   <div>
-    Low: {{ low }} | High: {{ high }}
+    {{ low }}&deg; {{ high }}&deg;
   </div>
 </div>
