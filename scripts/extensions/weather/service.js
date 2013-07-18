@@ -5,7 +5,7 @@
 
   mod.type = 'service';
   mod.name = 'weatherService';
-  mod.constructor = ['$http', '$q', function ($http, $q, settingsService){
+  mod.constructor = ['$http', '$q', function ($http, $q){
 
     // possibly use this to search
     // http://api.openweathermap.org/data/2.5/find?q=rockwall&units=imperial
@@ -29,7 +29,7 @@
       var nextDay = new Date();
       return {
         weather: {
-          loc: weatherData.name,
+          location: weatherData.name,
           temp: weatherData.main.temp,
           condition: weatherData.weather[0].main,
           low: weatherData.main.temp_min,

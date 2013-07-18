@@ -1,23 +1,17 @@
 <div ng-controller="WeatherCtrl">
-  <h1>Weather:</h1>
+  <h4 class="location">{{ weather.location }}</h4>
   <div>
-    <div>{{ weather.loc }}</div>
     <div>{{ weather.condition }} {{ weather.temp | number:0 }}&deg;</div>
     <div>
       {{ weather.low | number:0 }}&deg; | {{ weather.high | number:0 }}&deg;
     </div>
   </div>
-
-  <h1>Forecast:</h1>
+  <hr/>
   <div>
-    <span ng-repeat="item in forecast" style="width: 100px">
+    <div ng-repeat="item in forecast" style="display: inline-block; margin-right: 10px; text-align: center;">
       <div>{{ item.day | date:'EEE' }}</div>
       <div>{{ item.condition }}</div>
       <div> {{ item.low | number:0 }}&deg; | {{ item.high | number:0 }}&deg; </div>
-    </span>
+    </div>
   </div>
-  <pre style="max-width: 100%">
-    {{ weather | json }}
-    {{ forecast | json }}
-  </pre>
 </div>
