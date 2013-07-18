@@ -2,7 +2,7 @@
 
   var glob = require('glob');
   var path = require('path');
-  var _ = require('underscore');
+  var _ = require('lodash');
 
   // the app module
   var mainModule = ng.module('wijit', ['Scope.onReady']);
