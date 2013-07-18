@@ -36,19 +36,6 @@
     extensions.push(ext);
   });
 
-  // I don't like loading the service here, but it's the only scope where
-  // the extension list is available
-  mainModule.
-    service('extensionService', function() {
-      return {
-        all: extensions,
-        // active: TODO
-        // inactive: TODO
-        getExtension: function (extname) {
-          return _.findWhere(extensions, {name: extname});
-        }
-      }; // return
-
-    }); // service
+  mainModule.value('extensions', extensions);
 
 })(angular);
