@@ -6,8 +6,9 @@
   mod.type = 'controller';
   mod.name = 'WeatherCtrl'
 
-  mod.constructor = ['$scope', 'weatherService', 
-    function ($scope, weatherService) {
+  mod.constructor = ['$scope', 'weatherService', 'configService',
+    function ($scope, weatherService, config) {
+      config.get('something');
       var config = {locationCode: 4723406};
       weatherService.getWeather(config).then(function(data){
         $.extend($scope, data);
