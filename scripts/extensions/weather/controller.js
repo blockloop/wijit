@@ -1,20 +1,18 @@
 (function(){
-  
-  var _ = require('lodash');
-  var mod = exports = module.exports = {};
-  
-  mod.type = 'controller';
-  mod.name = 'WeatherCtrl'
+    exports = module.exports = function(args) {
+      var _ = args.require('lodash');
+      
+      args.ngModule.controller('WeatherCtrl', ['$scope', 'weatherService', 'configService', controller]);
 
-  mod.constructor = ['$scope', 'weatherService', 'configService',
-    function ($scope, weatherService, config) {
-      config.get('something');
-      var config = {locationCode: 4723406};
-      weatherService.getWeather(config).then(function(data){
-        _.extend($scope, data);
-      });
+      function controller($scope, weatherService, configService) {
+          configService.get('something');
 
-  }]; // constructor
+          var config = {locationCode: 4723406};
+          weatherService.getWeather(config).then(function(data){
+            _.extend($scope, data);
+          });
 
+      };
+
+    };
 })();
-
