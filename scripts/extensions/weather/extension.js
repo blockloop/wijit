@@ -11,17 +11,8 @@
   // they must be in this list to get loaded
   ext.modules = [ service, ctrl ]
 
-  // if you have any npm_modules you need then you have to put them here
-  // otherwise they will not be available in your extension
-  ext.npm_modules = ['xml2js'];
-
   // Set your controller name
   ext.ctrl = 'WeatherCtrl';
-
-  // Set your template
-  // Prefix with __dirname to ensure fullpath
-  ////// loaded automatically
-  // ext.template = __dirname + '/index.html';
 
   // word characters only
   ext.name = "Weather";

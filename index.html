@@ -6,10 +6,9 @@
 <body>
 
   <div class="content" ng-controller="MasterCtrl">
-    <div class="extension" 
-        ng-repeat="ext in extensionsLoaded" 
-        ng-include="ext.template"
-        >
+    <div ng-repeat="ext in extensionsLoaded" 
+      ng-include="ext.template"
+      ng-class="ext.guid">
     </div>
   </div>
 

@@ -28,9 +28,7 @@
 
 
     //
-    //
     // privates
-    //
     //
 
     function buildResponse(weatherData, forecastData) {

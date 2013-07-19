@@ -1,18 +1,41 @@
 (function(ng) {
 
+  var fs = require('fs');
   var glob = require('glob');
   var path = require('path');
   var _ = require('lodash');
 
   // the app module
   var mainModule = ng.module('wijit', ['Scope.onReady']);
+
   // extensions to load
   var extensions = [];
+
   // read extensions directory
   var files = glob.sync('scripts/extensions/**/extension.js');
 
-  // loop through the extension files and make them available as modules
+  // loop through the extension files and make them 
+  // available as angular modules catching any exceptions
   files.forEach(function(file) {
+    try {
+      var extension = loadExtension(file);
+      extensions.push(extension);
+    } catch (ex) {
+      var extname = file.match(/extensions\/(\w+)/)[1];
+      console.error('ERROR loading extension ' + extname + "\n" + ex.stack);
+    }
+  });
+
+  // provide extensions where requested
+  mainModule.value('extensions', extensions);
+
+
+  //
+  // private functions
+  //
+
+  function loadExtension(file) {
+    // make the file usable by require
     file = './' + file.replace('.js', '');
 
     // base directory of the extension
@@ -22,27 +45,47 @@
     var ext = require(file);
     console.log("Loading extension " + ext.name);
 
+    // load the extensions modules into angular
     ext.modules.forEach(function(mod){
       console.log('Loading ' + mod.type + ' ' + mod.name + ' of ' + ext.name + ' module');
       mainModule[mod.type](mod.name, mod.constructor);
     });
 
-    ext.template = path.join(extDir, 'index.html');
+    // if the extension doesn't have the template 
+    // then it's in a file next to the extension file
+    if (!path.template) {
+      ext.template = path.join(extDir, 'index.html');
+    }
+
     ext.config = path.join(extDir, 'config.json');
 
-    // generate a random class to stick on the extension to 
-    // seclude it's css to it's own section
-    var range = _.range(65,90).concat(_.range(97,122));
-    var prefix = '';
-    for (var i = 0; i < 8; i++) {
-      prefix += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
-    };
-    ext.classPrefix = prefix;
+    //
+    // set the guid
+    //
+    (function(){
+      var range = _.range(65,90);
+      var prefix = '';
+      for (var i = 0; i < 8; i++) {
+        prefix += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
+      }
+      ext.guid = prefix;
+    })();
 
-    // push the item to the internal list
-    extensions.push(ext);
-  });
+    // 
+    // load the stylesheet
+    //
+    (function(){
+      if (ext.styles) return;
+      var styleFile = path.join(extDir, 'style.less');
+      if (!fs.existsSync(styleFile)) {
+        throw new Error('No styles provided');
+      }
+      ext.styles = '.' + ext.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
+    })();
 
-  mainModule.value('extensions', extensions);
+
+
+    return ext;
+  }
 
 })(angular);
