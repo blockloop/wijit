@@ -38,9 +38,6 @@
 		// make the file usable by require
 		file = './' + file.replace('.js', '');
 
-		// base directory of the extension
-		var extDir = path.dirname(file);
-
 		var moduleArgs = {
 			ng: angular,
 			ngModule: mainModule,
@@ -50,61 +47,61 @@
 		// load the extension using node
 		var ext = require(file);
 
+		// base directory of the extension
+		ext.dir = path.dirname(file);
+
 		if (typeof(ext) == "function") {
 			ext = ext(moduleArgs);
 		}
 
 		console.log("Loading extension " + ext.name);
 
-		//
-		// load extension dependencies
-		//
-		(function(){
-			var extFiles = glob.sync(extDir + '/*.js');
-
-			extFiles.forEach(function(extFile){
-                if (extFile.match(/extension.js/)) return;
-				console.log(extFile);
-				var req = require(extFile);
-				req(moduleArgs);
-			});
-		})();
+        loadExtensionDeps(ext, moduleArgs);
 
 		// if the extension doesn't have the template 
 		// then it's in a file next to the extension file
 		if (!path.template) {
-			ext.template = path.join(extDir, 'index.html');
+			ext.template = path.join(ext.dir, 'template.html');
 		}
 
-		ext.config = path.join(extDir, 'config.json');
+		ext.config = path.join(ext.dir, 'config.json');
 
-		//
-		// set the guid
-		//
-		(function(){
-			var range = _.range(65,90);
-			var prefix = '';
-			for (var i = 0; i < 8; i++) {
-				prefix += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
-			}
-			ext.guid = prefix;
-		})();
+        ext.guid = createGuid(10);
 
-		// 
-		// load the stylesheet
-		//
-		(function(){
-			if (ext.styles) return;
-			var styleFile = path.join(extDir, 'styles.less');
-			if (!fs.existsSync(styleFile)) {
-				throw new Error('No styles provided');
-			}
-			ext.styles = '.' + ext.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
-		})();
-
+        ext.styles = loadStyles(ext);
 
 
 		return ext;
 	}
+
+
+    function loadExtensionDeps(ext, moduleArgs) {
+        var extFiles = glob.sync(ext.dir + '/*.js');
+
+        extFiles.forEach(function(extFile){
+            if (extFile.match(/extension.js/)) return;
+            console.log(extFile);
+            var req = require(extFile);
+            req(moduleArgs);
+        });
+    }
+
+    function createGuid(len) {
+        var range = _.range(65,90);
+        var guid = '';
+        for (var i = 0; i < 8; i++) {
+            guid += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
+        }
+        return guid;
+    }
+
+    function loadStyles(ext) {
+        if (ext.styles) return;
+        var styleFile = path.join(ext.dir, 'styles.less');
+        if (fs.existsSync(styleFile)) {
+            return '.' + ext.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
+        }
+        return '';
+    }
 
 })(angular);
