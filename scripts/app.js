@@ -12,16 +12,16 @@
 	var extensions = [];
 
 	// read extensions directory
-	var files = glob.sync('scripts/extensions/**/extension.js');
+	var extDirs = glob.sync('scripts/extensions/*/');
 
 	// loop through the extension files and make them 
 	// available as angular modules catching any exceptions
-	files.forEach(function(file) {
+	extDirs.forEach(function(dir) {
 		try {
-			var extension = loadExtension(file);
+			var extension = loadExtension(dir);
 			extensions.push(extension);
 		} catch (ex) {
-			var extname = file.match(/extensions\/(\w+)/)[1];
+			var extname = path.basename(dir);
 			console.error('ERROR loading extension ' + extname + "\n" + ex.stack);
 		}
 	});
@@ -34,9 +34,9 @@
 	// private functions
 	//
 
-	function loadExtension(file) {
-		// make the file usable by require
-		file = './' + file.replace('.js', '');
+	function loadExtension(dir) {
+        // relative path to extension.js
+		var extFile = './' + path.join(dir, 'extension.js');
 
 		var moduleArgs = {
 			ng: angular,
@@ -45,10 +45,10 @@
 		};
 
 		// load the extension using node
-		var ext = require(file);
+		var ext = require(extFile);
 
 		// base directory of the extension
-		ext.dir = path.dirname(file);
+		ext.dir = dir;
 
 		if (typeof(ext) == "function") {
 			ext = ext(moduleArgs);
@@ -80,8 +80,8 @@
 
         extFiles.forEach(function(extFile){
             if (extFile.match(/extension.js/)) return;
-            console.log(extFile);
-            var req = require(extFile);
+            var fullPath = './' + extFile;
+            var req = require(fullPath);
             req(moduleArgs);
         });
     }
