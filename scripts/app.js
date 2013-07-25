@@ -39,7 +39,6 @@
 		var extFile = './' + path.join(dir, 'extension.js');
 
 		var moduleArgs = {
-			ng: angular,
 			ngModule: mainModule,
 			require: require
 		};

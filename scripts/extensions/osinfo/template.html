@@ -1,0 +1,26 @@
+<div ng-controller="OsinfoCtrl">
+  <h4 class="location">OS</h4>
+  <table>
+      <tr>
+          <td>Hostname</td>
+          <td>{{ hostname }}</td>
+      </tr>
+      <tr>
+          <td>CPU</td>
+          <td>{{ cpuCount }}x {{ cpu }}</td>
+      </tr>
+      <tr>
+          <td>Uptime</td>
+          <td>{{ uptime }}</td>
+      </tr>
+      <tr>
+          <td>Local IP</td>
+          <td>{{ localIp.address }}</td>
+      </tr>
+      <tr>
+          <td>Public IP</td>
+          <td>{{ publicIp.data }}</td>
+      </tr>
+  </table>
+
+</div>
