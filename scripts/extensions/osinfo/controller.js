@@ -6,7 +6,7 @@
         var util = require('util');
         var os = require('os');
 
-        args.ngModule.controller('OsinfoCtrl', ['$scope', '$http', 'configService', controller]);
+        ng.module('osinfo').controller('OsinfoCtrl', ['$scope', '$http', 'configService', controller]);
 
         function controller($scope, $http, configService) {
             configService.get('something');

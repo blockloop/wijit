@@ -5,9 +5,6 @@
 	var path = require('path');
 	var _ = require('lodash');
 
-	// the app module
-	var mainModule = ng.module('wijit', ['Scope.onReady']);
-
 	// extensions to load
 	var extensions = [];
 
@@ -25,6 +22,14 @@
 			console.error('ERROR loading extension ' + extname + "\n" + ex.stack);
 		}
 	});
+
+    var extensionNames = _.select(extensions, 'name');
+
+    // main module dependencies
+    var dependencies = _.union(['Scope.onReady'], extensionNames);
+
+	// the app module
+	var mainModule = ng.module('wijit', dependencies);
 
 	// provide extensions where requested
 	mainModule.value('extensions', extensions);
