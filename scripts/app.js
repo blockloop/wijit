@@ -34,6 +34,15 @@
 	// private functions
 	//
 
+
+	function loadExtension(dir) {
+        var extensionFile = glob.sync(path.join(dir, 'extension.js'))[0];
+        var extension = require(extensionFile);
+        extension.load({angular: angular, require: require});
+    }
+
+
+
 	function loadExtension(dir) {
         // relative path to extension.js
 		var extFile = './' + path.join(dir, 'extension.js');
