@@ -1,5 +1,4 @@
 (function(ng) {
-
 	var fs = require('fs');
 	var glob = require('glob');
 	var path = require('path');
@@ -15,6 +14,7 @@
 	// available as angular modules catching any exceptions
 	extDirs.forEach(function(dir) {
 		try {
+            console.log('Loading ' + path.basename(dir));
 			var extension = loadExtension(dir);
 			extensions.push(extension);
 		} catch (ex) {
@@ -29,78 +29,73 @@
     var dependencies = _.union(['Scope.onReady'], extensionNames);
 
 	// the app module
-	var mainModule = ng.module('wijit', dependencies);
-
-	// provide extensions where requested
-	mainModule.value('extensions', extensions);
-
+	ng.module('wijit', dependencies)
+        .value('extensions', extensions);
 
 	//
 	// private functions
 	//
 
-
 	function loadExtension(dir) {
-        var extensionFile = glob.sync(path.join(dir, 'extension.js'))[0];
+        var opts = {
+            angular: angular, 
+            require: require
+        };
+
+        var extensionFile = './' + dir + 'extension';
+
         var extension = require(extensionFile);
-        extension.load({angular: angular, require: require});
-    }
 
+        extension.dir = dir;
 
+        extension.load(opts);
 
-	function loadExtension(dir) {
-        // relative path to extension.js
-		var extFile = './' + path.join(dir, 'extension.js');
+        var extensionFiles = glob.sync(dir + '/*.js');
 
-		var moduleArgs = {
-			ngModule: mainModule,
-			require: require
-		};
-
-		// load the extension using node
-		var ext = require(extFile);
-
-		// base directory of the extension
-		ext.dir = dir;
-
-		if (typeof(ext) == "function") {
-			ext = ext(moduleArgs);
-		}
-
-		console.log("Loading extension " + ext.name);
-
-        loadExtensionDeps(ext, moduleArgs);
-
-		// if the extension doesn't have the template 
-		// then it's in a file next to the extension file
-		if (!path.template) {
-			ext.template = path.join(ext.dir, 'template.html');
-		}
-
-		ext.config = path.join(ext.dir, 'config.json');
-
-        ext.guid = createGuid(10);
-
-        ext.styles = loadStyles(ext);
-
-
-		return ext;
-	}
-
-
-    function loadExtensionDeps(ext, moduleArgs) {
-        var extFiles = glob.sync(ext.dir + '/*.js');
-
-        extFiles.forEach(function(extFile){
-            if (extFile.match(/extension.js/)) return;
-            var fullPath = './' + extFile;
-            var req = require(fullPath);
-            req(moduleArgs);
+        // remove the extension file that was loaded already
+        extensionFiles = _.reject(extensionFiles, function(f){
+            return f.match(/extension.js/);
         });
-    }
 
+        // remove the .js and preceed with './'
+        extensionFiles = _.map(extensionFiles, function(f){
+            return './' + f.replace('.js', '');
+        });
+
+        extensionFiles.forEach(function(file){
+            console.log('Loading dependency ' + path.basename(file));
+            require(file).load(opts);
+        });
+
+        extension.guid = createGuid(10);
+
+        extension.styles = loadStyles(extension);
+
+        var extConfigFile = path.join(extension.dir, 'config.json');
+
+        if (fs.exists(extConfigFile)) {
+            extension.config = require(extConfigFile);
+        }
+
+        if (!extension.template) {
+            var templateFilePath = './' + extension.dir + 'template.html';
+            if (!fs.existsSync(templateFilePath)) {
+                throw new Error('Missing template file for ' + extension.name);
+            }
+            extension.template = fs.readFileSync(templateFilePath);
+        }
+
+        return extension;
+
+    } // loadExtension
+
+
+    //
+    // private
+    //
+    
     function createGuid(len) {
-        var range = _.range(65,90);
+        var range = _.range(97,122);
         var guid = '';
         for (var i = 0; i < 8; i++) {
             guid += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
@@ -108,11 +103,11 @@
         return guid;
     }
 
-    function loadStyles(ext) {
-        if (ext.styles) return;
-        var styleFile = path.join(ext.dir, 'styles.less');
+    function loadStyles(extension) {
+        if (extension.styles) return;
+        var styleFile = path.join(extension.dir, 'styles.less');
         if (fs.existsSync(styleFile)) {
-            return '.' + ext.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
+            return '.' + extension.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
         }
         return '';
     }

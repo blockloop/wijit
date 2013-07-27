@@ -1,18 +1,22 @@
 (function(){
-    exports = module.exports = function(args) {
-      var _ = args.require('lodash');
-      
-      args.ngModule.controller('WeatherCtrl', ['$scope', 'weatherService', 'configService', controller]);
+    var mod = exports = module.exports = {};
 
-      function controller($scope, weatherService, configService) {
-          configService.get('something');
+    mod.load = function(args) {
+        var require = args.require;
+        var ng = args.angular;
+        var _ = require('lodash');
 
-          var config = {locationCode: 4723406};
-          weatherService.getWeather(config).then(function(data){
-            _.extend($scope, data);
-          });
+        ng.module('weather').controller('WeatherCtrl', ['$scope', 'weatherService', 'configService', controller]);
 
-      };
+        function controller($scope, weatherService, configService) {
+            configService.get('something');
+
+            var config = {locationCode: 4723406};
+            weatherService.getWeather(config).then(function(data){
+                _.extend($scope, data);
+            });
+
+        };
 
     };
 })();
