@@ -9,7 +9,7 @@
         var util = require('util');
         var os = require('os');
 
-        ng.module('systeminfo').controller('SystemInfoCtrl', ['$scope', '$http', 'configService', controller]);
+        ng.module('SystemInfo').controller('SystemInfoCtrl', ['$scope', '$http', 'configService', controller]);
 
         function controller($scope, $http, configService) {
             configService.get('something');

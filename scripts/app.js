@@ -23,14 +23,15 @@
 		}
 	});
 
-    var extensionNames = _.select(extensions, 'name');
+    var extensionNames = _.map(extensions, 'name');
 
     // main module dependencies
     var dependencies = _.union(['Scope.onReady'], extensionNames);
 
 	// the app module
-	ng.module('wijit', dependencies)
-        .value('extensions', extensions);
+	ng.module('wijit', dependencies);
+
+    ng.module('wijit').value('extensions', extensions);
 
 	//
 	// private functions

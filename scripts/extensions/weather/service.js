@@ -5,7 +5,7 @@
         var _ = args.require('lodash');
         var ng = args.angular;
 
-        ng.module('weather').service('weatherService', ['$http', '$q', service]);
+        ng.module('Weather').service('weatherService', ['$http', '$q', service]);
 
         function service($http, $q) {
             // possibly use this to search for the city

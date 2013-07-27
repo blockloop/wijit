@@ -6,7 +6,7 @@
         var ng = args.angular;
         var _ = require('lodash');
 
-        ng.module('weather').controller('WeatherCtrl', ['$scope', 'weatherService', 'configService', controller]);
+        ng.module('Weather').controller('WeatherCtrl', ['$scope', 'weatherService', 'configService', controller]);
 
         function controller($scope, weatherService, configService) {
             configService.get('something');

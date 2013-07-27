@@ -17,7 +17,7 @@
       var ng = args.angular;
       var require = args.require;
 
-      ng.module('systeminfo', []);
+      ng.module(ext.name, []);
   };
 
 })();

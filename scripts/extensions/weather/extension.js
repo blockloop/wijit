@@ -17,7 +17,7 @@
       var ng = args.angular;
       var require = args.require;
 
-      ng.module('weather', []);
+      ng.module(ext.name, []);
   };
 
 })();
