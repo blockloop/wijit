@@ -11,3 +11,4 @@ tags
 Thumbs.db
 node_modules
 styles/css
+scripts/extensions/*/styles.css

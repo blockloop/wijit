@@ -29,9 +29,9 @@
     var dependencies = _.union(['Scope.onReady'], extensionNames);
 
 	// the app module
-	ng.module('wijit', dependencies);
+	ng.module('wijit', dependencies).value('extensions', extensions);
 
-    ng.module('wijit').value('extensions', extensions);
+
 
 	//
 	// private functions
@@ -70,7 +70,7 @@
 
         extension.guid = createGuid(10);
 
-        extension.styles = loadStyles(extension);
+        extension.stylesheetPath = loadStyles(extension);
 
         var extConfigFile = path.join(extension.dir, 'config.json');
 
@@ -97,20 +97,30 @@
     
     function createGuid(len) {
         var range = _.range(97,122);
+
         var guid = '';
+
         for (var i = 0; i < 8; i++) {
             guid += String.fromCharCode(range[Math.floor(Math.random()*range.length)]);
         }
+
         return guid;
     }
 
     function loadStyles(extension) {
-        if (extension.styles) return;
-        var styleFile = path.join(extension.dir, 'styles.less');
-        if (fs.existsSync(styleFile)) {
-            return '.' + extension.guid + ' { ' + fs.readFileSync(styleFile) + ' }';
-        }
-        return '';
+        var less = require('less');
+
+        var lessFile = path.join(extension.dir, 'styles.less');
+
+        var cssFile = path.join(extension.dir, 'styles.css');
+
+        var fixed = '.' + extension.guid + ' { ' + fs.readFileSync(lessFile) + ' }';
+
+        less.render(fixed, function (e, css) {
+            fs.writeFileSync(cssFile, css);
+        });
+
+        return cssFile;
     }
 
 })(angular);

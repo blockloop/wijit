@@ -1,29 +1,33 @@
 <!doctype html>
 <html ng-app="wijit" ng-cloak>
 <head>
-	<link rel="stylesheet" href="styles/css/app.css">
+    <link rel="stylesheet" href="styles/css/app.css">
+
 </head>
 <body>
 
-  <div class="content" ng-controller="MasterCtrl">
-    <div ng-repeat="ext in extensionsLoaded" 
-      ng-include="ext.template"
-      ng-class="ext.guid">
+    <div class="content" ng-controller="MasterCtrl">
+        <div ng-repeat="ext in extensionsLoaded" 
+            ng-include="ext.template"
+            ng-class="ext.guid">
+            <link rel="stylesheet/less" type="text/css" href="{{ext.stylesheetPath}}">
+        </div>
     </div>
-  </div>
 
-  <!-- JS -->
-  <script src="scripts/lib/angular.min.js"></script>
-  <script src="scripts/lib/scope.onready.js"></script>
-  <script src="scripts/app.js"></script>
+    <!-- JS -->
+    <script src="scripts/lib/angular.js"></script>
+    <script src="scripts/lib/scope.onready.js"></script>
+    <script src="scripts/app.js"></script>
 
-  <!-- Directives -->
+    <!-- Directives -->
+    <script src="scripts/directives/delay.js"></script>
 
-  <!-- Services -->
-  <script src="scripts/services/configService.js"></script>
+    <!-- Services -->
+    <script src="scripts/services/configService.js"></script>
 
-  <!-- Controllers -->
-  <script src="scripts/controllers/masterCtrl.js"></script>
-  <!-- /JS -->
+    <!-- Controllers -->
+    <script src="scripts/controllers/masterCtrl.js"></script>
+
+    <!-- /JS -->
 </body>
 </html>
